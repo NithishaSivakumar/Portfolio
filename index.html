@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nithisha Sivakumar — Data Analyst</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #18181f;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #f0eff4;
+    --muted: #8b8a96;
+    --accent: #7eedc0;
+    --accent2: #b8a9f7;
+    --accent3: #f7a9c4;
+    --warm: #f0c27f;
+    --glow: rgba(126,237,192,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Grid noise texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 3rem;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 7rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .orb1 { width: 500px; height: 500px; background: rgba(126,237,192,0.08); top: -100px; right: -100px; }
+  .orb2 { width: 350px; height: 350px; background: rgba(184,169,247,0.07); bottom: 50px; left: -80px; }
+
+  .hero-inner { max-width: 900px; position: relative; z-index: 1; }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid rgba(126,237,192,0.3);
+    border-radius: 2px;
+    padding: 5px 14px;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.2s forwards;
+  }
+  .hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+
+  .hero-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.35s forwards;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-pitch {
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 620px;
+    line-height: 1.75;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.5s forwards;
+  }
+
+  .hero-pitch strong { color: var(--text); font-weight: 500; }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.65s forwards;
+  }
+
+  .stat-item { }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.5rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.8s forwards;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #0a0a0f;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.85rem 2rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.85rem 2rem;
+    border-radius: 2px;
+    border: 1px solid var(--border2);
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+
+  /* SECTIONS */
+  section { padding: 6rem 3rem; position: relative; z-index: 1; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+
+  .section-index {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 6px;
+  }
+
+  /* ABOUT */
+  #about { background: var(--surface); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--muted);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+  }
+  .about-text p strong { color: var(--text); font-weight: 500; }
+
+  .about-details { display: flex; flex-direction: column; gap: 1rem; }
+
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+  }
+  .detail-key {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .detail-val { font-size: 0.9rem; color: var(--text); font-weight: 400; }
+  .detail-val.accent { color: var(--accent); }
+
+  /* EXPERIENCE */
+  .exp-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .exp-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--accent), var(--accent2));
+  }
+  .exp-card:hover { border-color: var(--border2); }
+
+  .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+  .exp-title { font-family: 'DM Serif Display', serif; font-size: 1.5rem; margin-bottom: 4px; }
+  .exp-company { font-size: 0.9rem; color: var(--accent); font-weight: 400; }
+  .exp-period {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 5px 12px;
+    border-radius: 2px;
+  }
+
+  .exp-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--surface2);
+    border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+
+  .kpi { text-align: center; }
+  .kpi-num { font-family: 'DM Serif Display', serif; font-size: 2rem; color: var(--accent); line-height: 1; }
+  .kpi-label { font-size: 0.7rem; color: var(--muted); margin-top: 4px; letter-spacing: 0.04em; }
+
+  .exp-domains { display: flex; flex-direction: column; gap: 1.25rem; }
+  .domain-group { }
+  .domain-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin-bottom: 0.75rem;
+  }
+  .dt-teal { background: rgba(126,237,192,0.1); color: var(--accent); border: 1px solid rgba(126,237,192,0.2); }
+  .dt-purple { background: rgba(184,169,247,0.1); color: var(--accent2); border: 1px solid rgba(184,169,247,0.2); }
+  .dt-pink { background: rgba(247,169,196,0.1); color: var(--accent3); border: 1px solid rgba(247,169,196,0.2); }
+  .dt-warm { background: rgba(240,194,127,0.1); color: var(--warm); border: 1px solid rgba(240,194,127,0.2); }
+
+  .domain-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .domain-bullets li {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.65;
+    padding-left: 1.25rem;
+    position: relative;
+  }
+  .domain-bullets li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.8rem;
+  }
+  .domain-bullets li strong { color: var(--text); font-weight: 500; }
+
+  /* PROJECTS */
+  #projects { background: var(--surface); }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.75rem;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .project-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+
+  .project-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .project-card:hover::after { transform: scaleX(1); }
+
+  .project-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+
+  .project-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem;
+    line-height: 1.3;
+    margin-bottom: 0.75rem;
+    color: var(--text);
+  }
+
+  .project-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.65;
+    flex: 1;
+    margin-bottom: 1.25rem;
+  }
+
+  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .ptag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    padding: 3px 9px;
+    border-radius: 2px;
+    border: 1px solid var(--border2);
+    color: var(--muted);
+  }
+  .ptag.highlight { border-color: rgba(126,237,192,0.3); color: var(--accent); background: rgba(126,237,192,0.05); }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+
+  .skill-category {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.75rem;
+  }
+
+  .skill-cat-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .skill-cat-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .skill-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .skill-pill {
+    font-size: 0.82rem;
+    padding: 5px 14px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--text);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .skill-pill:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* EDUCATION */
+  #education { background: var(--surface); }
+
+  .edu-card {
+    display: flex;
+    gap: 3rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .edu-degree {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.75rem;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+  .edu-field { font-size: 0.9rem; color: var(--accent); margin-bottom: 0.5rem; }
+  .edu-inst { font-size: 0.95rem; color: var(--muted); }
+  .edu-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 5px 14px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  /* CERTIFICATIONS */
+  .certs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+
+  .cert-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1.25rem 1.5rem;
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.2s;
+    display: block;
+  }
+  .cert-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+  .cert-issuer {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .cert-name {
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 6px;
+    font-weight: 400;
+  }
+  .cert-date { font-size: 0.75rem; color: var(--muted); }
+  .cert-arrow { float: right; color: var(--muted); font-size: 0.75rem; margin-top: -1.2rem; transition: color 0.2s; }
+  .cert-card:hover .cert-arrow { color: var(--accent); }
+
+  /* CONTACT */
+  #contact {
+    text-align: center;
+    background: var(--bg);
+    padding: 7rem 3rem;
+  }
+
+  .contact-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-sub { font-size: 1rem; color: var(--muted); max-width: 480px; margin: 0 auto 3rem; line-height: 1.7; }
+
+  .contact-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.75rem 1.5rem;
+    border-radius: 2px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+  .contact-link svg { width: 14px; height: 14px; }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 3rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    section { padding: 4rem 1.5rem; }
+    #hero { padding: 6rem 1.5rem 3rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .projects-grid { grid-template-columns: 1fr 1fr; }
+    .exp-kpis { grid-template-columns: repeat(2, 1fr); }
+    .skills-grid { grid-template-columns: 1fr; }
+    .certs-grid { grid-template-columns: 1fr 1fr; }
+    .hero-stats { gap: 2rem; }
+  }
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .certs-grid { grid-template-columns: 1fr; }
+    .exp-kpis { grid-template-columns: 1fr 1fr; }
+    .edu-card { flex-direction: column; gap: 1.5rem; }
+    .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">NS</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-orb orb1"></div>
+  <div class="hero-bg-orb orb2"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Available for full-time &amp; internship roles</div>
+    <h1 class="hero-name">Nithisha<br><em>Sivakumar</em></h1>
+    <p class="hero-pitch">
+      I don't just study data — I've already used it to <strong>transform how a renewable energy company operates.</strong> From NLP pipelines to enterprise dashboards to automated business systems, I build analytics solutions that actually ship.
+    </p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Power BI Dashboards</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">15+</div>
+        <div class="stat-label">Automated Workflows</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">90%+</div>
+        <div class="stat-label">Survey Completion Rate</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">8+</div>
+        <div class="stat-label">Industry Projects</div>
+      </div>
+    </div>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View Projects →</a>
+      <a href="#contact" class="btn-secondary">Get In Touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-index">01</span>
+    <h2 class="section-title">About</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>I'm a <strong>data analyst and analytics engineer</strong> completing my Integrated M.Sc. in Computational Statistics and Data Analytics at Vellore Institute of Technology, Chennai.</p>
+      <p>What separates me from other freshers is real, end-to-end industry experience. At <strong>Everrenew Energy</strong>, I didn't just analyse data — I built the systems that collect it, automate it, and turn it into decisions across four business functions.</p>
+      <p>My work spans <strong>NLP pipelines, Power BI dashboards, automated workflows, people analytics,</strong> and cost intelligence — all shipped into production and used by real stakeholders.</p>
+      <p>I'm actively seeking <strong>Business Analyst</strong> or <strong>Data Analyst</strong> roles where statistical thinking meets real business impact. Open to on-site, hybrid, and remote opportunities across Chennai and beyond.</p>
+    </div>
+    <div class="about-details">
+      <div class="detail-row">
+        <span class="detail-key">Location</span>
+        <span class="detail-val">Chennai, Tamil Nadu, India</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-key">Degree</span>
+        <span class="detail-val">Integrated M.Sc. — CSDA</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-key">Institution</span>
+        <span class="detail-val">Vellore Institute of Technology</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-key">Graduation</span>
+        <span class="detail-val">2026</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-key">Open To</span>
+        <span class="detail-val accent">Business & Data Analyst Roles</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-key">Work Mode</span>
+        <span class="detail-val">On-site · Hybrid · Remote</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-key">Mobile Number</span>
+        <span class="detail-val">+91 6379313668</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header reveal">
+    <span class="section-index">02</span>
+    <h2 class="section-title">Experience</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="exp-card reveal">
+    <div class="exp-header">
+      <div>
+        <h3 class="exp-title">Data Analytics Intern</h3>
+        <div class="exp-company">Everrenew Energy Pvt Ltd · Digital Transformation · Chennai</div>
+      </div>
+      <span class="exp-period">Sep 2025 – Apr 2026 · 8 months</span>
+    </div>
+    <div class="exp-kpis">
+      <div class="kpi"><div class="kpi-num">10+</div><div class="kpi-label">Power BI Dashboards Deployed</div></div>
+      <div class="kpi"><div class="kpi-num">15+</div><div class="kpi-label">Workflows Automated</div></div>
+      <div class="kpi"><div class="kpi-num">90%+</div><div class="kpi-label">Survey Completion Rate</div></div>
+      <div class="kpi"><div class="kpi-num">4</div><div class="kpi-label">Business Domains Covered</div></div>
+    </div>
+    <div class="exp-domains">
+      <div class="domain-group">
+        <span class="domain-tag dt-teal">Dashboards & Reporting</span>
+        <ul class="domain-bullets">
+          <li>Designed and deployed <strong>10+ interactive Power BI dashboards</strong> across finance, HR, operations, and supply chain — improving cross-departmental reporting visibility and leadership decision speed.</li>
+          <li>Converted a static crane productivity report into a <strong>live SharePoint-integrated dashboard</strong> tracking utilisation, TCI cost per erection, and seasonal performance trends across wind energy project sites.</li>
+          <li>Conducted infrastructure cost analysis across <strong>33kV–220kV voltage categories</strong> — handled data cleaning, preprocessing, and Excel visualisations to support procurement and CAPEX decisions.</li>
+        </ul>
+      </div>
+      <div class="domain-group">
+        <span class="domain-tag dt-purple">Process Automation</span>
+        <ul class="domain-bullets">
+          <li>Built <strong>15+ automated workflows</strong> using Power Automate, Power Apps, and SharePoint across vendor management, claims processing, and employee engagement — significantly reducing manual effort.</li>
+          <li>Developed an automated <strong>vendor & contractor performance system</strong> with trigger-based workflows, role-based access control, and a weighted scoring model covering quality, safety, delivery, and compliance.</li>
+          <li>Built an end-to-end <strong>digital insurance claims management system</strong> with automated notifications, document validation, and real-time dashboards tracking claim status across all project sites.</li>
+        </ul>
+      </div>
+      <div class="domain-group">
+        <span class="domain-tag dt-pink">People Analytics & NLP</span>
+        <ul class="domain-bullets">
+          <li>Designed an <strong>employee engagement analytics platform</strong> computing EEI scores and performing driver analysis across departments and demographics — achieving a <strong>90%+ survey completion rate</strong>.</li>
+          <li>Built an <strong>NLP sentiment analysis pipeline in Python</strong> using TF-IDF keyword extraction to process open-text employee feedback, converting unstructured responses into structured Power BI insights for HR leadership.</li>
+        </ul>
+      </div>
+      <div class="domain-group">
+        <span class="domain-tag dt-warm">Cost & Expense Analytics</span>
+        <ul class="domain-bullets">
+          <li>Analysed organisational travel expense data to surface cost inefficiencies — identified patterns including <strong>last-minute bookings and premium transport overuse</strong>, delivering a monitoring dashboard that supported management policy changes.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-index">03</span>
+    <h2 class="section-title">Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="project-num">Project 01</div>
+      <h3 class="project-title">Walmart Weekly Sales Forecasting</h3>
+      <p class="project-desc">Applied ARIMA and LSTM time series models to forecast Walmart's weekly retail sales. LSTM outperformed ARIMA with lower MAE and MAPE, demonstrating superior accuracy for retail demand prediction and inventory planning.</p>
+      <div class="project-tags">
+        <span class="ptag highlight">LSTM</span>
+        <span class="ptag highlight">ARIMA</span>
+        <span class="ptag">Python</span>
+        <span class="ptag">Time Series</span>
+        <span class="ptag">Forecasting</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">Project 02</div>
+      <h3 class="project-title">PCOS Detection via ML Classification</h3>
+      <p class="project-desc">Built machine learning classification models for PCOS (Polycystic Ovary Syndrome) detection using advanced ML techniques. Applied predictive modelling to healthcare diagnostics, contributing to early detection research.</p>
+      <div class="project-tags">
+        <span class="ptag highlight">ML Classification</span>
+        <span class="ptag">Scikit-learn</span>
+        <span class="ptag">Python</span>
+        <span class="ptag">Healthcare Analytics</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">Project 03</div>
+      <h3 class="project-title">Deep Learning vs Traditional Models — Digit Recognition</h3>
+      <p class="project-desc">Benchmarked deep learning models against traditional ML algorithms for handwritten digit recognition. Evaluated performance trade-offs in accuracy, training time, and generalisation to guide model selection decisions.</p>
+      <div class="project-tags">
+        <span class="ptag highlight">Deep Learning</span>
+        <span class="ptag">TensorFlow</span>
+        <span class="ptag">Python</span>
+        <span class="ptag">Model Benchmarking</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">Project 04</div>
+      <h3 class="project-title">Vendor & Contractor Performance Assessment System</h3>
+      <p class="project-desc">Designed an automated vendor evaluation system with trigger-based workflow orchestration, role-based access control, and a weighted scoring model (Platinum/Gold/Silver) covering quality, safety, delivery, and compliance across cross-functional teams.</p>
+      <div class="project-tags">
+        <span class="ptag highlight">Power Automate</span>
+        <span class="ptag highlight">SharePoint</span>
+        <span class="ptag">Power Apps</span>
+        <span class="ptag">Workflow Automation</span>
+        <span class="ptag">RBAC</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">Project 05</div>
+      <h3 class="project-title">Employee Engagement Analytics Platform</h3>
+      <p class="project-desc">End-to-end engagement analytics system computing Employee Engagement Index (EEI), performing driver analysis across departments and demographics. Achieved 90%+ survey completion rate. Integrated Microsoft Forms, Power Automate, SharePoint, and Power BI.</p>
+      <div class="project-tags">
+        <span class="ptag highlight">Power BI</span>
+        <span class="ptag highlight">EEI</span>
+        <span class="ptag">Power Automate</span>
+        <span class="ptag">People Analytics</span>
+        <span class="ptag">Driver Analysis</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">Project 06</div>
+      <h3 class="project-title">NLP Employee Feedback Sentiment Pipeline</h3>
+      <p class="project-desc">Built a Python NLP pipeline using TF-IDF keyword extraction and lexicon-based sentiment classification to process hundreds of open-text survey responses. Generated department-wise sentiment dashboards for HR leadership in Power BI.</p>
+      <div class="project-tags">
+        <span class="ptag highlight">NLP</span>
+        <span class="ptag highlight">TF-IDF</span>
+        <span class="ptag">Python</span>
+        <span class="ptag">Sentiment Analysis</span>
+        <span class="ptag">Power BI</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">Project 07</div>
+      <h3 class="project-title">Insurance Claims Management System</h3>
+      <p class="project-desc">Built an end-to-end digital claims management system replacing fragmented manual processes. Automated incident reporting, task pipeline creation, document validation, and real-time dashboard monitoring across all project sites with unique incident ID generation.</p>
+      <div class="project-tags">
+        <span class="ptag highlight">Power Automate</span>
+        <span class="ptag">Power Apps</span>
+        <span class="ptag">SharePoint</span>
+        <span class="ptag">Power BI</span>
+        <span class="ptag">Workflow Design</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">Project 08</div>
+      <h3 class="project-title">Travel Expense Optimization Dashboard</h3>
+      <p class="project-desc">Analysed organisational travel expense data to identify cost inefficiencies including last-minute bookings and premium transport overuse. Delivered a real-time monitoring dashboard that supported management policy improvements and cost reduction initiatives.</p>
+      <div class="project-tags">
+        <span class="ptag highlight">Power BI</span>
+        <span class="ptag">Cost Analysis</span>
+        <span class="ptag">Excel</span>
+        <span class="ptag">KPI Dashboards</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">Project 09</div>
+      <h3 class="project-title">Crane Productivity & Cost Monitoring Dashboard</h3>
+      <p class="project-desc">Transformed a static crane productivity PPT into a continuously updated SharePoint-based dashboard tracking WTG erections, TCI cost per erection (avg ₹1Cr+), seasonal performance trends, and productivity variation across wind energy projects.</p>
+      <div class="project-tags">
+        <span class="ptag highlight">SharePoint</span>
+        <span class="ptag">Power BI</span>
+        <span class="ptag">Excel</span>
+        <span class="ptag">Renewable Energy</span>
+        <span class="ptag">Operational Analytics</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header reveal">
+    <span class="section-index">04</span>
+    <h2 class="section-title">Skills</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid reveal">
+    <div class="skill-category">
+      <div class="skill-cat-title">Programming & Querying</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">R</span>
+        <span class="skill-pill">SQL</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Data Analysis & ML</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Pandas</span>
+        <span class="skill-pill">NumPy</span>
+        <span class="skill-pill">Scikit-learn</span>
+        <span class="skill-pill">TensorFlow</span>
+        <span class="skill-pill">NLP</span>
+        <span class="skill-pill">Predictive Modelling</span>
+        <span class="skill-pill">Time Series Forecasting</span>
+        <span class="skill-pill">Classification Models</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Business Intelligence</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Power BI</span>
+        <span class="skill-pill">DAX</span>
+        <span class="skill-pill">Data Modelling</span>
+        <span class="skill-pill">Power Query</span>
+        <span class="skill-pill">ETL Development</span>
+        <span class="skill-pill">Dashboard Development</span>
+        <span class="skill-pill">KPI Dashboards</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Microsoft Power Platform</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Power Automate</span>
+        <span class="skill-pill">Power Apps</span>
+        <span class="skill-pill">SharePoint</span>
+        <span class="skill-pill">Microsoft Forms</span>
+        <span class="skill-pill">Microsoft Planner</span>
+        <span class="skill-pill">Zoho Expense</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Data Visualisation</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Microsoft Excel</span>
+        <span class="skill-pill">Matplotlib</span>
+        <span class="skill-pill">Seaborn</span>
+        <span class="skill-pill">Interactive Reporting</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Soft Skills</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Cross-functional Collaboration</span>
+        <span class="skill-pill">Analytical Thinking</span>
+        <span class="skill-pill">Problem Solving</span>
+        <span class="skill-pill">Communication</span>
+        <span class="skill-pill">Time Management</span>
+        <span class="skill-pill">Adaptability</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-header reveal">
+    <span class="section-index">05</span>
+    <h2 class="section-title">Education</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="edu-card reveal">
+    <div style="flex:1;">
+      <h3 class="edu-degree">Master of Science<br><em style="font-style:italic;color:var(--accent);font-size:1.1rem;">(Integrated)</em></h3>
+      <div class="edu-field">Computational Statistics and Data Analytics</div>
+      <div class="edu-inst">Vellore Institute of Technology, Vellore</div>
+    </div>
+    <span class="edu-year">2021 – 2026</span>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-header reveal">
+    <span class="section-index">06</span>
+    <h2 class="section-title">Certifications</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="certs-grid">
+
+    <a href="https://www.linkedin.com/learning/certificates/6c9c04a3a5c4616a0d86a043888fa5b0e81185171d4791f57c2b54b8b61146a8" target="_blank" class="cert-card reveal">
+      <div class="cert-issuer">Wolfram Research</div>
+      <div class="cert-name">Statistics Foundations Professional Certificate</div>
+      <div class="cert-date">Jul 2025</div>
+      <span class="cert-arrow">↗</span>
+    </a>
+
+    <a href="https://drive.google.com/file/d/1V2lG4Y6w2ffDmHSSYDpXaz4cNYRPgWUC/view" target="_blank" class="cert-card reveal">
+      <div class="cert-issuer">KNIME</div>
+      <div class="cert-name">Data Science Professional Certificate</div>
+      <div class="cert-date">Jul 2025</div>
+      <span class="cert-arrow">↗</span>
+    </a>
+
+    <a href="https://drive.google.com/file/d/1xmlL0zN2LiC5u7QS1Y2e6Q7Cs-4z_0oA/view" target="_blank" class="cert-card reveal">
+      <div class="cert-issuer">HP LIFE</div>
+      <div class="cert-name">Data Science and Analytics</div>
+      <div class="cert-date">Jun 2025</div>
+      <span class="cert-arrow">↗</span>
+    </a>
+
+    <a href="https://drive.google.com/file/d/12J4mOdCdDWcDL4P5kwEZWI-dDdxoS9rl/view" target="_blank" class="cert-card reveal">
+      <div class="cert-issuer">Microsoft & LinkedIn</div>
+      <div class="cert-name">Career Essentials in Data Analysis</div>
+      <div class="cert-date">Jun 2025</div>
+      <span class="cert-arrow">↗</span>
+    </a>
+
+    <a href="https://drive.google.com/file/d/1YUHSNb-CPeax1aBKm-YPeLjkIGfpgTDw/view" target="_blank" class="cert-card reveal">
+      <div class="cert-issuer">Simplilearn</div>
+      <div class="cert-name">R Programming for Beginners</div>
+      <div class="cert-date">Jun 2025</div>
+      <span class="cert-arrow">↗</span>
+    </a>
+
+    <a href="https://drive.google.com/file/d/1p6pWNfcR0NYdfUStsczhPcCTvg4CuJQ7/view" target="_blank" class="cert-card reveal">
+      <div class="cert-issuer">VIT Chennai</div>
+      <div class="cert-name">Tesseract — The Data Matrix</div>
+      <div class="cert-date">Mar 2025</div>
+      <span class="cert-arrow">↗</span>
+    </a>
+
+    <a href="https://drive.google.com/file/d/16EZHe4qvVWmCDLEuw-heqY9x_MlmSurN/view" target="_blank" class="cert-card reveal">
+      <div class="cert-issuer">Edureka</div>
+      <div class="cert-name">Java-SQL Primer</div>
+      <div class="cert-date">Jul 2024</div>
+      <span class="cert-arrow">↗</span>
+    </a>
+
+    <a href="https://drive.google.com/file/d/1NvjEbyj_teLVRNkLGs3OTuyTVIHbCnCN/view" target="_blank" class="cert-card reveal">
+      <div class="cert-issuer">NPTEL</div>
+      <div class="cert-name">Forests and Their Management</div>
+      <div class="cert-date">Jan 2024</div>
+      <span class="cert-arrow">↗</span>
+    </a>
+
+    <a href="https://drive.google.com/file/d/15Z3C4jzQWoeJE7hPk3YrhNqzoFIrjfA5/view" target="_blank" class="cert-card reveal">
+      <div class="cert-issuer">NPTEL</div>
+      <div class="cert-name">Wild Life Ecology</div>
+      <div class="cert-date">Jul 2024</div>
+      <span class="cert-arrow">↗</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-eyebrow">Open to opportunities</div>
+  <h2 class="contact-heading">Let's build<br><em style="font-style:italic;color:var(--accent);">something together.</em></h2>
+  <p class="contact-sub">I'm actively looking for Business Analyst and Data Analyst roles. If you're hiring or just want to connect — reach out.</p>
+  <p style="font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--muted);margin-bottom:2rem;letter-spacing:0.04em;">
+    Email: <a href="mailto:nithishasivakumar293@gmail.com" style="color:var(--accent);text-decoration:none;">nithishasivakumar293@gmail.com</a>
+  </p>
+  <div class="contact-links">
+    <a href="https://www.linkedin.com/in/nithisha-s-52227a320/" target="_blank" class="contact-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+      LinkedIn
+    </a>
+    <a href="https://drive.google.com/file/d/1V2lG4Y6w2ffDmHSSYDpXaz4cNYRPgWUC/view" target="_blank" class="contact-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      View Resume
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Nithisha S</span>
+  <span>Data Analyst · VIT Vellore · Chennai, India</span>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
